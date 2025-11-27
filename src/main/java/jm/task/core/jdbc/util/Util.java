@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import jm.task.core.jdbc.model.User;
 
 public class Util {
-    // реализуйте настройку соеденения с БД
     private static final String URL = "jdbc:mysql://localhost:3306/task_jdbc";
     private static final String USER = "root";
     private static final String PASSWORD = "кщще1212";
@@ -45,7 +44,7 @@ public class Util {
             }
         }
         return sessionFactory;
-    } // Подключение к базе данных при помощи hibernate
+    }
     public static Connection getConnection() {
         try {
             logger.info("Подключение к MySQL: " + URL);

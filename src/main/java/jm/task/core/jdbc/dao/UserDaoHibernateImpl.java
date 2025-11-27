@@ -47,7 +47,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                String sql = "DROP TABLE IF EXISTS user";
+                String sql = """
+                        DROP TABLE IF EXISTS user
+                        """;
                 session.createNativeQuery(sql).executeUpdate();
                 transaction.commit();
                 logger.info("Таблица users удалена");
@@ -83,7 +85,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                String sql = "DELETE FROM user WHERE id = :userId";
+                String sql = """
+                        DELETE FROM user WHERE id = :userId
+                        """;
                 int clearUser = session.createNativeQuery(sql)
                         .setParameter("userId", id)
                         .executeUpdate();
@@ -101,7 +105,9 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> users;
-        String sql = "SELECT * FROM user";
+        String sql = """
+                SELECT * FROM user
+                """;
         try (Session session = getSessionFactory().openSession()) {
             users = session
                     .createNativeQuery(sql, User.class)
@@ -118,7 +124,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
-            String sql = "TRUNCATE TABLE user";
+            String sql = """
+                    TRUNCATE TABLE user
+                    """;
             session.createNativeQuery(sql).executeUpdate();
             session.getTransaction().commit();
             logger.info("Таблица users очищена");
