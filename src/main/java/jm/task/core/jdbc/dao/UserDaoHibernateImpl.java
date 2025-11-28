@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
@@ -38,7 +38,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 throw e;
             }
         } catch (Exception e) {
-            logger.severe("Ошибка при создании таблицы: " + e.getMessage());
+            logger.error("Ошибка при создании таблицы: " + e.getMessage());
         }
     }
 
@@ -47,9 +47,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                String sql = """
-                        DROP TABLE IF EXISTS user
-                        """;
+                String sql = "DROP TABLE IF EXISTS user";
                 session.createNativeQuery(sql).executeUpdate();
                 transaction.commit();
                 logger.info("Таблица users удалена");
@@ -58,7 +56,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 throw e;
             }
         } catch (Exception e) {
-            logger.severe("Ошибка при удалении таблицы: " + e.getMessage());
+            logger.error("Ошибка при удалении таблицы: " + e.getMessage());
         }
     }
 
@@ -76,7 +74,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 throw e;
             }
         } catch (Exception e) {
-            logger.severe("Ошибка при сохранении пользователя: " + e.getMessage());
+            logger.error("Ошибка при сохранении пользователя: " + e.getMessage());
         }
     }
 
@@ -85,9 +83,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                String sql = """
-                        DELETE FROM user WHERE id = :userId
-                        """;
+                String sql = "DELETE FROM user WHERE id = :userId";
                 int clearUser = session.createNativeQuery(sql)
                         .setParameter("userId", id)
                         .executeUpdate();
@@ -98,23 +94,21 @@ public class UserDaoHibernateImpl implements UserDao {
                 throw e;
             }
         } catch (Exception e) {
-            logger.severe("Ошибка при удалении пользователя: " + e.getMessage());
+            logger.error("Ошибка при удалении пользователя: " + e.getMessage());
         }
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> users;
-        String sql = """
-                SELECT * FROM user
-                """;
+        String sql = "SELECT * FROM user";
         try (Session session = getSessionFactory().openSession()) {
             users = session
                     .createNativeQuery(sql, User.class)
                     .getResultList();
             logger.info("Получено пользователей: " + users.size());
         } catch (Exception e) {
-            logger.severe("Ошибка при получении пользователей: " + e.getMessage());
+            logger.error("Ошибка при получении пользователей: " + e.getMessage());
             return new ArrayList<>();
         }
         return users;
@@ -124,14 +118,12 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
-            String sql = """
-                    TRUNCATE TABLE user
-                    """;
+            String sql = "TRUNCATE TABLE user";
             session.createNativeQuery(sql).executeUpdate();
             session.getTransaction().commit();
             logger.info("Таблица users очищена");
         } catch (Exception e) {
-            logger.severe("Ошибка при очистке таблицы: " + e.getMessage());
+            logger.error("Ошибка при очистке таблицы: " + e.getMessage());
         }
     }
 }

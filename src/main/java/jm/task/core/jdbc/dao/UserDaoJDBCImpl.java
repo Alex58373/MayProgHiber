@@ -6,7 +6,7 @@ import jm.task.core.jdbc.util.Util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection;
@@ -28,7 +28,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute(sql);
             logger.info("Таблица users создана");
         } catch (SQLException e) {
-            logger.severe("Ошибка при создании таблицы: " + e.getMessage());
+            logger.error("Ошибка при создании таблицы: " + e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute(sql);
             logger.info("Таблица users удалена");
         } catch (SQLException e) {
-            logger.severe("Ошибка при удалении таблицы: " + e.getMessage());
+            logger.error("Ошибка при удалении таблицы: " + e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
             logger.info("Пользователь: " + name + " " + lastName + "  сохранен." );
         } catch (SQLException e) {
-            logger.severe("Ошибка при сохранении пользователя: " + e.getMessage());
+            logger.error("Ошибка при сохранении пользователя: " + e.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class UserDaoJDBCImpl implements UserDao {
             int rowsAffected = preparedStatement.executeUpdate();
             logger.info("Удалено пользователей: " + rowsAffected);
         } catch (SQLException e) {
-            logger.severe("Ошибка при удалении пользователя: " + e.getMessage());
+            logger.error("Ошибка при удалении пользователя: " + e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            logger.severe("Ошибка при получении пользователей: " + e.getMessage());
+            logger.error("Ошибка при получении пользователей: " + e.getMessage());
         }
 
         return users;
@@ -103,7 +103,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute(sql);
             logger.info("Таблица users очищена");
         } catch (SQLException e) {
-            logger.severe("Ошибка при очистке таблицы: " + e.getMessage());
+            logger.error("Ошибка при очистке таблицы: " + e.getMessage());
         }
     }
 }
