@@ -2,18 +2,18 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static final Logger logger = Logger.getLogger(UserDaoHibernateImpl.class.getName());
+    private static final Logger logger = LogManager.getLogger(UserDaoHibernateImpl.class);
 
     public UserDaoHibernateImpl() {
         Util.getSessionFactory();
@@ -42,7 +42,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 } catch (Exception re) {
                     logger.error("Ошибка при откате транзакции: " + re.getMessage());
                 }
-                logger.error("Ошибка при создании таблицы: " + e.getMessage());
+                logger.error("Ошибка при создании таблицы: ", e.getMessage());
             }
         } catch (Exception e) {
             logger.error("Ошибка при работе с сессией: " + e.getMessage());

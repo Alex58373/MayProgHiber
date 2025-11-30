@@ -6,11 +6,13 @@ import jm.task.core.jdbc.util.Util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection;
-    private static final Logger logger = Logger.getLogger(UserDaoJDBCImpl.class.getName());
+    private static final Logger logger = LogManager.getLogger(UserDaoJDBCImpl.class);
 
     public UserDaoJDBCImpl() {
         this.connection = Util.getConnection();
