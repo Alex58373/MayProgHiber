@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
@@ -34,11 +35,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 transaction.commit();
                 logger.info("Таблица user создана");
             } catch (Exception e) {
-                transaction.rollback();
-                throw e;
+                try {
+                    if (transaction.isActive()) {
+                        transaction.rollback();
+                    }
+                } catch (Exception re) {
+                    logger.error("Ошибка при откате транзакции: " + re.getMessage());
+                }
+                logger.error("Ошибка при создании таблицы: " + e.getMessage());
             }
         } catch (Exception e) {
-            logger.error("Ошибка при создании таблицы: " + e.getMessage());
+            logger.error("Ошибка при работе с сессией: " + e.getMessage());
         }
     }
 
@@ -52,11 +59,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 transaction.commit();
                 logger.info("Таблица user удалена");
             } catch (Exception e) {
-                transaction.rollback();
-                throw e;
+                try {
+                    if (transaction.isActive()) {
+                        transaction.rollback();
+                    }
+                } catch (Exception re) {
+                    logger.error("Ошибка при откате транзакции: " + re.getMessage());
+                }
+                logger.error("Ошибка при удалении таблицы: " + e.getMessage());
             }
         } catch (Exception e) {
-            logger.error("Ошибка при удалении таблицы: " + e.getMessage());
+            logger.error("Ошибка при работе с сессией: " + e.getMessage());
         }
     }
 
@@ -70,11 +83,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 transaction.commit();
                 logger.info("Пользователь: " + name + " " + lastName + "  сохранен.");
             } catch (Exception e) {
-                transaction.rollback();
-                throw e;
+                try {
+                    if (transaction.isActive()) {
+                        transaction.rollback();
+                    }
+                } catch (Exception re) {
+                    logger.error("Ошибка при откате транзакции: " + re.getMessage());
+                }
+                logger.error("Ошибка при сохранении пользователя: " + e.getMessage());
             }
         } catch (Exception e) {
-            logger.error("Ошибка при сохранении пользователя: " + e.getMessage());
+            logger.error("Ошибка при работе с сессией: " + e.getMessage());
         }
     }
 
@@ -90,11 +109,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 transaction.commit();
                 logger.info("Удалено пользователей: " + clearUser);
             } catch (Exception e) {
-                transaction.rollback();
-                throw e;
+                try {
+                    if (transaction.isActive()) {
+                        transaction.rollback();
+                    }
+                } catch (Exception re) {
+                    logger.error("Ошибка при откате транзакции: " + re.getMessage());
+                }
+                logger.error("Ошибка при удалении пользователя: " + e.getMessage());
             }
         } catch (Exception e) {
-            logger.error("Ошибка при удалении пользователя: " + e.getMessage());
+            logger.error("Ошибка при работе с сессией: " + e.getMessage());
         }
     }
 
